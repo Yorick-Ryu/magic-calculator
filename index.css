@@ -1,0 +1,134 @@
+:root {
+    --bg-color: #000000;
+    --key-number-bg: #333333;
+    --key-operator-bg: #ff9f0a;
+    --key-functional-bg: #a5a5a5;
+    --text-color: #ffffff;
+    --text-dark: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.calculator {
+    width: 100%;
+    max-width: 430px; /* iPhone 15 Pro Max width approximation */
+    height: 100%;
+    max-height: 932px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    color: var(--text-color);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 10px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.display {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 20px 10px;
+    margin-bottom: 10px;
+}
+
+.result {
+    font-size: 80px;
+    font-weight: 300;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 12px;
+}
+
+.key {
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: none;
+    font-size: 32px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: filter 0.1s, transform 0.05s;
+}
+
+.key:active {
+    filter: brightness(1.5);
+    transform: scale(0.95);
+}
+
+.key.number {
+    background-color: var(--key-number-bg);
+    color: var(--text-color);
+}
+
+.key.functional {
+    background-color: var(--key-functional-bg);
+    color: var(--text-dark);
+    font-size: 28px;
+}
+
+.key.operator {
+    background-color: var(--key-operator-bg);
+    color: var(--text-color);
+    font-size: 36px;
+}
+
+.key.operator.active {
+    background-color: var(--text-color);
+    color: var(--key-operator-bg);
+}
+
+/* Specific button styles */
+button[data-key="backspace"] svg {
+    margin-left: -2px;
+}
+
+/* Mobile full screen adjustments */
+@media (max-width: 480px) {
+    .calculator {
+        padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+    }
+    
+    .result {
+        font-size: 90px;
+    }
+}
