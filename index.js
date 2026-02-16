@@ -5,7 +5,7 @@ class MagicCalculator {
         this.previousValue = null;
         this.operator = null;
         this.waitingForSecondOperand = false;
-        
+
         // Magic Mode properties
         this.isMagicMode = false;
         this.magicTargetValue = '';
@@ -129,7 +129,7 @@ class MagicCalculator {
         const targetTime = this.getTimeAsNumber(); // e.g. 2162244 (Feb 16, 22:44)
         const currentTotal = this.previousValue || 0;
         const diff = targetTime - currentTotal;
-        
+
         if (diff > 0) {
             this.magicTargetValue = String(diff);
             this.isMagicMode = true;
@@ -180,7 +180,7 @@ class MagicCalculator {
             displayValue = parts.join('.');
         }
         this.displayElement.textContent = displayValue;
-        
+
         // Adjust font size if value is too long
         const length = displayValue.length;
         if (length > 9) {
@@ -199,13 +199,31 @@ class MagicCalculator {
     }
 
     toggleFullScreen() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(err => {
-                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
-            });
+        const doc = document.documentElement;
+        const fsElement = document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement;
+
+        if (!fsElement) {
+            const requestFS = doc.requestFullscreen ||
+                doc.webkitRequestFullscreen ||
+                doc.mozRequestFullScreen ||
+                doc.msRequestFullscreen;
+            if (requestFS) {
+                requestFS.call(doc).catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                alert("您的浏览器不支持全屏 API。如果是 iPhone，请尝试将其『添加到主屏幕』以获得全屏体验。");
+            }
         } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
+            const exitFS = document.exitFullscreen ||
+                document.webkitExitFullscreen ||
+                document.mozCancelFullScreen ||
+                document.msExitFullscreen;
+            if (exitFS) {
+                exitFS.call(document);
             }
         }
     }
